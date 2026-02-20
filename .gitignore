@@ -4,7 +4,6 @@
 .env.production
 
 # Database files
-*.db
 *.sqlite
 *.sqlite3
 
