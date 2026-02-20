@@ -9,7 +9,6 @@ from wtforms import StringField, PasswordField, DecimalField, SubmitField, Integ
 from wtforms.validators import DataRequired, Length, NumberRange
 from math import exp, log
 import logging
-from flask_wtf.csrf import CSRFProtect
 
 # Configuration
 app = Flask(__name__)
@@ -28,9 +27,6 @@ app.config['DEBUG'] = os.environ.get('DEBUG', 'False').lower() == 'true'
 app.config['SESSION_COOKIE_SECURE'] = os.environ.get('FLASK_ENV') == 'production'
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-
-# Initialize CSRF protection
-#CSRFProtect(app)
 
 db = SQLAlchemy(app)
 login = LoginManager(app)

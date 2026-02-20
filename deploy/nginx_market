@@ -1,0 +1,23 @@
+server {
+    listen 80;
+    server_name _;
+
+    access_log /var/log/nginx/market.access.log;
+    error_log /var/log/nginx/market.error.log;
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://127.0.0.1:5000;
+        proxy_read_timeout 120;
+    }
+
+    location /static/ {
+        alias /home/ubuntu/testmarket/static/;
+    }
+}
+
+# NOTE: copy this file to /etc/nginx/sites-available/market and symlink to
+# /etc/nginx/sites-enabled/ then test and reload nginx. Update paths/user as needed.
