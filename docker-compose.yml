@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: market-app
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_ENV: production
+      FLASK_HOST: 0.0.0.0
+      FLASK_PORT: 5000
+      DEBUG: "False"
+      SECRET_KEY: ${SECRET_KEY:-dev-secret-change-me}
+      SQLALCHEMY_DATABASE_URI: ${SQLALCHEMY_DATABASE_URI:-sqlite:///market.db}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-change-me}
+    volumes:
+      - ./instance:/app/instance
+    depends_on:
+      - db
+    networks:
+      - market-network
+
+  db:
+    image: postgres:15-alpine
+    container_name: market-db
+    environment:
+      POSTGRES_DB: marketdb
+      POSTGRES_USER: ${DB_USER:-market}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-market-password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - market-network
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
+
+networks:
+  market-network:

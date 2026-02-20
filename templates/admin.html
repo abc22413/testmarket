@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block body %}
+<h3>Admin Panel</h3>
+<p>Market: Yes {{ market.q_yes }} | No {{ market.q_no }} | Resolved: {{ market.resolved }} {% if market.outcome %} Outcome: {{ market.outcome }}{% endif %}</p>
+
+<h4>Resolve Market</h4>
+<form method="post" action="{{ url_for('admin_resolve') }}">
+  Outcome: <select name="outcome">
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+  </select>
+  <input type="submit" value="Resolve">
+</form>
+
+<h4>Reset Market</h4>
+<form method="post" action="{{ url_for('admin_reset') }}">
+  <input type="submit" value="Reset">
+</form>
+
+<h4>Users</h4>
+<ul>
+  {% for u in users %}
+    <li>{{ u.username }} | Balance: {{ '%.4f'|format(u.balance) }} | Yes: {{ u.holdings_yes }} | No: {{ u.holdings_no }} {% if u.is_admin %}(admin){% endif %}</li>
+  {% endfor %}
+</ul>
+
+<h4>Recent Trades</h4>
+<ul>
+  {% for t in trades %}
+    <li>{{ t.timestamp }} - User {{ t.user_id }} bought {{ t.qty }} {{ t.side }} for {{ '%.4f'|format(t.cost) }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

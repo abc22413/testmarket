@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block body %}
+<h3>Account</h3>
+<p><strong>Balance</strong>: {{ '%.4f'|format(user.balance) }}</p>
+<p><strong>Holdings Yes</strong>: {{ user.holdings_yes }} | <strong>Holdings No</strong>: {{ user.holdings_no }}</p>
+{% endblock %}
